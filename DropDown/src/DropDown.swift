@@ -114,7 +114,7 @@ public final class DropDown: UIView {
 	See `Direction` enum for more info.
 	*/
 	public var direction = Direction.any
-
+    public var maxRowsForHeight = 7
 	/**
 	The offset point relative to `anchorView` when the drop down is shown above the anchor view.
 
@@ -580,7 +580,7 @@ extension DropDown {
 		widthConstraint.constant = layout.width
 		heightConstraint.constant = layout.visibleHeight
 
-		tableView.isScrollEnabled = layout.offscreenHeight > 0
+		tableView.isScrollEnabled = true
 
 		DispatchQueue.main.async { [weak self] in
 			self?.tableView.flashScrollIndicators()
@@ -1030,7 +1030,8 @@ extension DropDown {
 
 	/// Returns the height needed to display all cells.
 	fileprivate var tableHeight: CGFloat {
-		return tableView.rowHeight * CGFloat(dataSource.count)
+        let rows = maxRowsForHeight < dataSource.count ? maxRowsForHeight : dataSource.count
+		return tableView.rowHeight * CGFloat(rows)
 	}
 
     //MARK: Objective-C methods for converting the Swift type Index
